@@ -101,7 +101,7 @@ func IsValid(s string) bool {
 
 
 
-	return false
+	
 }
 
 // 4. 最长公共前缀
@@ -111,21 +111,29 @@ func LongestCommonPrefix(strs []string) string {
 	if len(strs) == 0 {
 		return ""
 	}
-	// 拿第一个字符串当作参考
-	base := strs[0]
 
+	//中文或重音字符会占用多个byte，所以转成rune
+	runesAll := make([][]rune, len(strs))
+	for index, v := range strs {
+		runesAll[index] = []rune(v)
+	}
+
+	//以第一个开始
+	base := runesAll[0]
 	// 遍历基准字符串每一个位置
-	for i := range base {
-		char := base[i]
+	for i ,char:= range base {
+		
 		// 和剩下所有字符串对比第i位
-		for j := 1; j < len(strs); j++ {
+		for j := 1; j < len(runesAll); j++ {
+
+			curRunes := runesAll[j]
 			// 如果这个字符串长度不够i 或者字符不一致，直接返回前面部分
-			if i >= len(strs[j]) || strs[j][i] != char {
-				return base[:i]
+			if i >= len(curRunes) || curRunes[i] != char {
+				return string(base[:i])
 			}
 		}
 	}
-	return base
+	return string(base)
 }
 
 // 5. 加一

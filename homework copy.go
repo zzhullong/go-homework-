@@ -1,4 +1,4 @@
-package homework_test
+package main
 
 import (
 	"fmt"
@@ -81,7 +81,7 @@ func goroutine2(tasks []Task)  {
 	}
 
 	wg.Wait()
-	fmt.Println("All tasks completed\n")
+	fmt.Println("All tasks completed")
 	
 }
 
@@ -214,27 +214,53 @@ func channel2() {
 
 
 //题目九 编写一个程序，使用 sync.Mutex 来保护一个共享的计数器。启动10个协程，每个协程对计数器进行1000次递增操作，最后输出计数器的值。
+
+type Count struct {
+	mu sync.Mutex
+	count int
+}
+
+
+func (count *Count) add()  {
+	count.mu.Lock()
+	count.count++
+	defer count.mu.Unlock()
+}
+
+func (count *Count) getCount() int {
+	count.mu.Lock()
+	
+	defer count.mu.Unlock()
+
+	return count.count
+}
+
+
 func mutex()  {
 	
-	var mu sync.Mutex
+	
 	var wg sync.WaitGroup
-	var count int
+	count := Count{}
 fmt.Println("第九题开始")
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
 		go func() {
-			wg.Add(1)
-		wg.Done()
-		mu.Lock()
-		count++
-		defer mu.Unlock()
+
+			for i := 0; i < 1000; i++ {
+				
+		count.add()
+		
+		}
+		defer wg.Done()
+		
 	}()
 	}
 	
-
+	
 	wg.Wait()
-		
-	fmt.Println("计数的总数为：",count)
 
+	fmt.Println("第九题计数的总数为：",count.getCount())
+	
 	
 
 }
