@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -240,8 +242,20 @@ fmt.Println("第九题开始")
 
 //题目十 使用原子操作（ sync/atomic 包）实现一个无锁的计数器。启动10个协程，每个协程对计数器进行1000次递增操作，最后输出计数器的值。
 
-func sync()  {
-	
+func syncc()  {
+	var count atomic.Int32
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for i := 0; i < 1000; i++ {
+				count.Add(1)
+			}
+		}()
+	}
+	wg.Wait()
+	fmt.Println("总数:",count.Load())
 }
 
 
@@ -311,7 +325,7 @@ channel2()
 mutex()
 
 //题目十
-
+syncc()
 
 }
 
