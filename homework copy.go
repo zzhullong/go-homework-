@@ -1,4 +1,4 @@
-package main
+package homework_test
 
 import (
 	"fmt"
@@ -92,45 +92,45 @@ func goroutine2(tasks []Task)  {
 
 type Shape interface {
 
-	Area()
+	Area() int
 
-	Perimeter()
+	Perimeter() int 
 
 }
 
 
 type Rectangle struct{
 	
-	 area string
+	 area int
 		
 	perimeter int
 }
 
-func (rectangle *Rectangle) Area(area string ) string {
+func (rectangle Rectangle) Area() int {
 	
-	rectangle.area = area
+	
 	return rectangle.area
 }
 
-func (rectangle *Rectangle) Perimeter(perimeter int ) int {
-	rectangle.perimeter = perimeter
+func (rectangle Rectangle) Perimeter() int {
+	
 	return rectangle.perimeter
 }
 
 type Circle struct{
 	
-	 area string
+	 area int
 		
 	perimeter int
 }
 
-func (circle *Circle) Area(area string) string {
-	circle.area = area
+func (circle Circle) Area() int {
+	
 	return circle.area
 }
 
-func (circle *Circle) Perimeter(per int) int {
-	circle.perimeter = per
+func (circle Circle) Perimeter() int {
+	
 	return circle.perimeter
 }
 
@@ -299,11 +299,12 @@ task := make([]Task,3)
 	//题目五
 
 	fmt.Println("题目五:")
-	rectangle := Rectangle{area :"test1",perimeter : 1}
-	fmt.Println("修改后的area为",rectangle.Area("test11"),"修改后的per为:",rectangle.Perimeter(11))
+	var shape Shape
+	shape = Rectangle{25,20}
+	fmt.Println("Rectangle的area为",shape.Area(),"Rectangle的per为:",shape.Perimeter())
 
-circle := Circle{area :"test2",perimeter : 2}
-	fmt.Println("修改后的area为",circle.Area("test22"),"修改后的per为:",circle.Perimeter(22))
+	shape = Circle{20,18}
+	fmt.Println("Circle的area为",shape.Area(),"Circle的per为:",shape.Perimeter())
 
 
 
